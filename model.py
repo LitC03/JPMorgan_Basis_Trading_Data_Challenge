@@ -79,7 +79,7 @@ def simulate_results(params,basis,N,dt,UK_dataset,German_dataset,mean,sigma,time
 
     # Calculate RMSE
     RMSE = math.sqrt(math.fsum((UK_dataset - estimated_apple_prices)**2)/N)
-    print(f'RMSE of model: {RMSE}')
+    # print(f'RMSE of model: {RMSE}')
 
     # plot_everything(estimated_apple_prices,UK_dataset,German_dataset,time_arr,N)
     return RMSE
@@ -124,17 +124,16 @@ def main():
     dt = 1/252 # obtain dt value for daily data
     params = get_OU_params(basis,dt)
 
-    reps = 100
+    reps = 1000
     RMSE = np.zeros((reps,))
-    print(len(RMSE))
     for i in range(reps):
         RMSE[i] = simulate_results(params,basis,N,dt,UK_dataset,German_dataset,mean,sigma,time_arr)
     
     mean_rmse = RMSE.mean()
     std_rmse = RMSE.std()
 
-    print(f"Mean RMSE: {mean_rmse:.3f}")
-    print(f"Std RMSE: {std_rmse:.3f}")
+    print(f"Mean RMSE: {mean_rmse:.2f}")
+    print(f"Std RMSE: {std_rmse:.2f}")
     # Testing
     t = 10
     estimated_price = estimate_new_price(params,German_dataset[t],basis[t-1],dt,mean,sigma)
