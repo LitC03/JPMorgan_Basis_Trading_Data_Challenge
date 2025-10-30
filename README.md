@@ -6,6 +6,8 @@ The fitted model is then used to predict UK apple prices based on the previous d
 
 The model achieves a **Root Mean Square Error (RMSE) of 6.23 $\pm$ 0.08 GBP**, as illustrated in the figure below.
 
+
+![Result graph](/assets/Trading_prediction.png)
 ## Workflow
 The script executes the following steps:
 1. **Load data** (`load_data`):
