@@ -81,7 +81,7 @@ def simulate_results(params,basis,N,dt,UK_dataset,German_dataset,mean,sigma,time
     RMSE = math.sqrt(math.fsum((UK_dataset - estimated_apple_prices)**2)/N)
     # print(f'RMSE of model: {RMSE}')
 
-    # plot_everything(estimated_apple_prices,UK_dataset,German_dataset,time_arr,N)
+    plot_everything(estimated_apple_prices,UK_dataset,German_dataset,time_arr,N)
     return RMSE
 
 def get_new_step(params,previous_basis,dt):
@@ -109,7 +109,7 @@ def plot_everything(estimated_price,uk,german,time_arr,N):
 
     plt.figure(figsize=(12, 7))
     plt.plot(time_arr,uk,label='UK apple prices (GBP)', color='blue', alpha=0.9, linewidth=1.5)
-    plt.plot(time_arr,estimated_price,label='German apple prices + Simulated basis (GBP)', color='red', alpha=0.9, linewidth=1)
+    plt.plot(time_arr,estimated_price,label='German apple prices + Predicted Basis (GBP)', color='red', alpha=0.9, linewidth=1)
     plt.title('UK apple prices (GBP) vs. Estimated UK apple prices from German market ', fontsize=16)
     plt.xlabel('Time Step')
     plt.ylabel('Apple prices (GBP)')
@@ -124,7 +124,7 @@ def main():
     dt = 1/252 # obtain dt value for daily data
     params = get_OU_params(basis,dt)
 
-    reps = 1000
+    reps = 1
     RMSE = np.zeros((reps,))
     for i in range(reps):
         RMSE[i] = simulate_results(params,basis,N,dt,UK_dataset,German_dataset,mean,sigma,time_arr)
