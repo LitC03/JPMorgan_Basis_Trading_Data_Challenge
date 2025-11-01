@@ -1,8 +1,11 @@
 import numpy as np
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import r2_score
 import pandas as pd
 import matplotlib.pyplot as plt
 import math
+import random
+
 
 
 def load_data(filename):
@@ -79,10 +82,11 @@ def simulate_results(params,basis,N,dt,UK_dataset,German_dataset,mean,sigma,time
 
     # Calculate RMSE
     RMSE = math.sqrt(math.fsum((UK_dataset - estimated_apple_prices)**2)/N)
+    r2 = r2_score(UK_dataset, estimated_apple_prices)
     # print(f'RMSE of model: {RMSE}')
 
     plot_everything(estimated_apple_prices,UK_dataset,German_dataset,time_arr,N)
-    return RMSE
+    return RMSE,r2
 
 def get_new_step(params,previous_basis,dt):
     # Get parameters
@@ -107,13 +111,18 @@ def estimate_new_price(params,curr_price_german,previous_basis,dt,mean,sigma):
 
 def plot_everything(estimated_price,uk,german,time_arr,N):
 
-    plt.figure(figsize=(12, 7))
+    plt.figure(figsize=(8, 3.5))
+    plt.rcParams.update({
+    "text.usetex": True,
+    "font.family": "serif",
+    "font.serif": ["Computer Modern"],
+    })
     plt.plot(time_arr,uk,label='UK apple prices (GBP)', color='blue', alpha=0.9, linewidth=1.5)
     plt.plot(time_arr,estimated_price,label='German apple prices + Predicted Basis (GBP)', color='red', alpha=0.9, linewidth=1)
-    plt.title('UK apple prices (GBP) vs. Estimated UK apple prices from German market ', fontsize=16)
-    plt.xlabel('Time Step')
-    plt.ylabel('Apple prices (GBP)')
-    plt.legend()
+    plt.title(r'\bf{UK apple prices (GBP) vs. Estimated UK apple prices from German market}', fontsize=14)
+    plt.xlabel(r'\bf{Date}')
+    plt.ylabel(r'\bf{Apple prices (GBP)}')
+    plt.legend( prop={'size': 11})
     plt.grid(True, linestyle=':', alpha=0.6)
     plt.tight_layout()
     plt.show()
@@ -125,15 +134,17 @@ def main():
     params = get_OU_params(basis,dt)
 
     reps = 1
-    RMSE = np.zeros((reps,))
+    RMSE,r2 = np.zeros((reps,)),np.zeros((reps,))
     for i in range(reps):
-        RMSE[i] = simulate_results(params,basis,N,dt,UK_dataset,German_dataset,mean,sigma,time_arr)
+        RMSE[i],r2[i] = simulate_results(params,basis,N,dt,UK_dataset,German_dataset,mean,sigma,time_arr)
     
     mean_rmse = RMSE.mean()
     std_rmse = RMSE.std()
+    mean_r2 = r2.mean()
 
     print(f"Mean RMSE: {mean_rmse:.2f}")
     print(f"Std RMSE: {std_rmse:.2f}")
+    print(f"Mean R2: {mean_r2:.5f}")
     # Testing
     t = 10
     estimated_price = estimate_new_price(params,German_dataset[t],basis[t-1],dt,mean,sigma)
@@ -141,4 +152,5 @@ def main():
     print(f'The actual price was {UK_dataset[t]:.2f} GBP')
 
 if __name__ == '__main__':
+    random.seed(10)
     main()
