@@ -116,13 +116,14 @@ def plot_everything(estimated_price,uk,german,time_arr,N):
     "text.usetex": True,
     "font.family": "serif",
     "font.serif": ["Computer Modern"],
+    'font.size': 12
     })
     plt.plot(time_arr,uk,label='UK apple prices (GBP)', color='blue', alpha=0.9, linewidth=1.5)
     plt.plot(time_arr,estimated_price,label='German apple prices + Predicted Basis (GBP)', color='red', alpha=0.9, linewidth=1)
     plt.title(r'\bf{UK apple prices (GBP) vs. Estimated UK apple prices from German market}', fontsize=14)
     plt.xlabel(r'\bf{Date}')
     plt.ylabel(r'\bf{Apple prices (GBP)}')
-    plt.legend( prop={'size': 11})
+    plt.legend( prop={'size': 12})
     plt.grid(True, linestyle=':', alpha=0.6)
     plt.tight_layout()
     plt.show()
