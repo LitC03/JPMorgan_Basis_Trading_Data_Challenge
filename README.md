@@ -4,7 +4,7 @@ The objective of this analysis, set by JPMorgan, was to model the price basis be
 Based on the premise that this basis follows an Ornstein-Uhlenbeck (OU) process, this script estimates the process parameters with the use of an Autoregressive (AR) model. 
 The fitted model is then used to predict UK apple prices based on the previous day's price basis and the concurrent German apple price (converted to GBP).
 
-The model achieves a **Root Mean Square Error (RMSE) of 6.23 $\pm$ 0.08 GBP**, as illustrated in the figure below.
+The model achieves a **R2 score of 0.995 and Root Mean Square Error (RMSE) of 6.23 $\pm$ 0.08 GBP**, as illustrated in the figure below.
 
 
 ![Result graph](/assets/Trading_prediction.svg)
